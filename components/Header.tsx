@@ -38,8 +38,13 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, onBack }
             )}
         </div>
       
-      <button onClick={logout} className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg text-sm">
-        <span>Logout</span>
+      <button
+        onClick={logout}
+        aria-label="Logout"
+        title="Logout"
+        className="flex items-center space-x-2 px-3 py-1.5 rounded-lg text-sm border border-[#FF4D4D] bg-[#FF4D4D]/30 hover:bg-[#FF4D4D]/40 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D4D]/50"
+      >
+        <span className="text-white">Logout</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
       </button>
     </div>

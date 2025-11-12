@@ -14,6 +14,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import MessagesScreen from './screens/MessagesScreen';
 import Notification from './components/Notification';
 import ChangePasswordScreen from './screens/ChangePasswordScreen';
+import { supabase } from './backend/supabaseClient';
 
 const App: React.FC = () => {
   const { screen, role, notifications } = useAppContext();
@@ -48,6 +49,7 @@ const App: React.FC = () => {
   };
 
   const visibleNotifications = notifications.filter(note => !note.targetRole || note.targetRole === role);
+  console.log('Supabase connected:', supabase);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-900 p-4">
