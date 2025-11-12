@@ -10,7 +10,7 @@ const SplashScreen: React.FC = () => {
   useEffect(() => {
     const timeouts = [
       setTimeout(() => setStep(1), 500), // bg color
-      setTimeout(() => setStep(2), 1000), // VROOMY appears
+      setTimeout(() => setStep(2), 1000), // VROOMLY appears
       setTimeout(() => setStep(3), 1500), // Van slides in
       setTimeout(() => setStep(4), 2500), // Van centers
       setTimeout(() => setStep(5), 3000), // Tagline appears
