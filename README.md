@@ -62,5 +62,4 @@ This project is currently being developed. It is not a completed project.
 
 ## CONTRIBUTORS  
 [@haniyakk](https://github.com/haniyakk)
-insharah khan and abdul mannan
-
+insharah and mannan
