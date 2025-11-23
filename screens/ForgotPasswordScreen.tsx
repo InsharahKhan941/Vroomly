@@ -1,18 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Screen } from '../types';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { VanIcon } from '../constants';
+import { supabase } from '../backend/supabaseClient';
 
 const ForgotPasswordScreen: React.FC = () => {
-  const { setScreen } = useAppContext();
+  const { setScreen, addNotification } = useAppContext();
+  const [email, setEmail] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSendLink = (e: React.FormEvent) => {
+  const handleSendLink = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically call an API to send a reset link.
-    // For this mock, we'll just navigate back to the auth screen.
-    alert("Password reset link sent (mock)!");
+    setLoading(true);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      addNotification({
+        title: 'Error',
+        message: error.message,
+      });
+      return;
+    }
+
+    addNotification({
+      title: 'Success',
+      message: 'Password reset link sent to your email!',
+    });
     setScreen(Screen.AUTH);
   };
 
@@ -35,9 +55,11 @@ const ForgotPasswordScreen: React.FC = () => {
           id="email"
           type="email"
           placeholder="Enter your registered email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <Button type="submit">Send Reset Link</Button>
+        <Button type="submit" disabled={loading}>{loading ? 'Sending...' : 'Send Reset Link'}</Button>
       </form>
     </div>
   );

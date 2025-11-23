@@ -1,18 +1,45 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Screen } from '../types';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { DEPARTMENTS } from '../constants';
+import { submitComplaint } from '../backend/complaintApi.ts';
 
 const ComplaintScreen: React.FC = () => {
-  const { user, role, setScreen } = useAppContext();
+  const { user, role, setScreen, addNotification } = useAppContext();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [fullName, setFullName] = useState<string>(user?.fullName ?? '');
+  const [studentId, setStudentId] = useState<string>(user?.studentId ?? '');
+  const [department, setDepartment] = useState<string>(user?.department ?? '');
+  const [details, setDetails] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Complaint Submitted Successfully!");
-    setScreen(Screen.DASHBOARD);
+    setLoading(true);
+
+    const payload = {
+      student_id: role === 'Student' ? user?.id ?? null : null,
+      name: fullName,
+      reg_no: role === 'Student' ? studentId ?? null : null,
+      department: role === 'Student' ? department ?? null : null,
+      complaint_text: details,
+    };
+
+    const res = await submitComplaint(payload as any);
+    setLoading(false);
+
+    if (res?.error) {
+      return;
+    }
+
+    try {
+      addNotification({ title: 'Complaint', message: 'Your complaint was submitted successfully.' });
+    } catch (e) {
+      // ignore notification errors
+    }
+    setScreen(Screen.COMPLAINT);
   };
 
   return (
@@ -32,13 +59,13 @@ const ComplaintScreen: React.FC = () => {
         <p className="text-white/70">Do you have a complaint?</p>
 
         <form className="w-full space-y-4 mt-4" onSubmit={handleSubmit}>
-          <Input label="Full Name" id="fullName" type="text" defaultValue={user?.fullName} required />
+          <Input label="Full Name" id="fullName" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
           {role === 'Student' ? (
             <>
-              <Input label="Student ID" id="studentId" type="text" defaultValue={user?.studentId} required />
+              <Input label="Student ID" id="studentId" type="text" value={studentId} onChange={(e) => setStudentId(e.target.value)} required />
               <div>
                 <label htmlFor="department" className="text-sm font-medium text-white/80 mb-2 block">Select Department</label>
-                <select id="department" required className="w-full bg-[#2E2E55] border border-transparent focus:border-pink-400 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-400/50">
+                <select id="department" value={department} onChange={(e) => setDepartment(e.target.value)} required className="w-full bg-[#2E2E55] border border-transparent focus:border-pink-400 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-400/50">
                   <option value="">Select here</option>
                   {DEPARTMENTS.map(dep => <option key={dep} value={dep}>{dep}</option>)}
                 </select>
@@ -50,11 +77,11 @@ const ComplaintScreen: React.FC = () => {
           
           <div>
             <label htmlFor="details" className="text-sm font-medium text-white/80 mb-2 block">Complain Details</label>
-            <textarea id="details" rows={4} placeholder="Describe your issue..." required className="w-full bg-[#2E2E55] border border-transparent focus:border-pink-400 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-400/50"></textarea>
+            <textarea id="details" rows={4} placeholder="Describe your issue..." value={details} onChange={(e) => setDetails(e.target.value)} required className="w-full bg-[#2E2E55] border border-transparent focus:border-pink-400 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-400/50"></textarea>
           </div>
           
           <div className="pt-4">
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={loading}>{loading ? 'Sending...' : 'Submit'}</Button>
           </div>
         </form>
       </main>

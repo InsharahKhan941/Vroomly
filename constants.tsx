@@ -32,36 +32,15 @@ export const DriverIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 export const DEPARTMENTS = [
-  'Computer Science Department',
-  'Software Engineering Department',
-  'Environments Science Department',
-  'Business Administration Department',
+  'Computer Science',
+  'Software Engineering',
+  'Environments Science',
+  'Psychology',
+  'Social Science And Humanities',
+  'Business Administration',
+  'Artificial Intelligence',
+  'Robotics',
 ];
 
-export const MOCK_STUDENTS: Student[] = [
-    { id: '1', name: 'Haniyya Khan', studentId: '01-00000-000', status: AttendanceStatus.PENDING },
-    { id: '2', name: 'Abdul Mannan', studentId: 'BSSE-01024', status: AttendanceStatus.PENDING },
-    { id: '3', name: 'Fatima Khan', studentId: 'BSCS-01022', status: AttendanceStatus.PENDING },
-    { id: '4', name: 'Saif ur Rehman', studentId: 'BSCS-01035', status: AttendanceStatus.PENDING },
-    { id: '5', name: 'Hadia Khan', studentId: 'BSEE-01012', status: AttendanceStatus.PENDING },
-    { id: '6', name: 'Saif ul Mannan', studentId: 'BSDS-01099', status: AttendanceStatus.PENDING },
-    { id: '7', name: 'Alina Amel', studentId: 'BSAF-01029', status: AttendanceStatus.PENDING },
-    { id: '8', name: 'Ahmed Ali', studentId: 'BSCS-01045', status: AttendanceStatus.PENDING },
-    { id: '9', name: 'Zainab Ahmed', studentId: 'BSSE-01050', status: AttendanceStatus.PENDING },
-    { id: '10', name: 'Usman Tariq', studentId: 'BSCS-01055', status: AttendanceStatus.PENDING },
-    { id: '11', name: 'Ayesha Khan', studentId: 'BSDS-01060', status: AttendanceStatus.PENDING },
-    { id: '12', name: 'Bilal Hasan', studentId: 'BSEE-01065', status: AttendanceStatus.PENDING },
-];
 
-export const MOCK_CONVERSATIONS: Conversation[] = [
-    {
-        id: '1',
-        name: 'Ali (Driver)',
-        avatar: '',
-        messages: [
-            { id: 1, text: 'Hi, just a reminder that the morning pickup is at 7:00 AM sharp tomorrow.', sender: 'other', timestamp: '8:15 PM' },
-            { id: 2, text: 'Got it, thanks for the heads up!', sender: 'me', timestamp: '8:16 PM' },
-            { id: 3, text: 'No problem. See you tomorrow!', sender: 'other', timestamp: '8:17 PM' },
-        ]
-    }
-];
+

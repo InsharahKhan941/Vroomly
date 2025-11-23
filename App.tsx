@@ -5,6 +5,7 @@ import SplashScreen from './screens/SplashScreen';
 import LaunchScreen from './screens/LaunchScreen';
 import AuthScreen from './screens/AuthScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import StudentDashboard from './screens/StudentDashboard';
 import DriverDashboard from './screens/DriverDashboard';
 import ComplaintScreen from './screens/ComplaintScreen';
@@ -29,6 +30,8 @@ const App: React.FC = () => {
         return <AuthScreen />;
       case Screen.FORGOT_PASSWORD:
         return <ForgotPasswordScreen />;
+      case Screen.RESET_PASSWORD:
+        return <ResetPasswordScreen />;
       case Screen.DASHBOARD:
         return role === 'Student' ? <StudentDashboard /> : <DriverDashboard />;
       case Screen.COMPLAINT:

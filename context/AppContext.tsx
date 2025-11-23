@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { supabase } from '../backend/supabaseClient';
 import { Screen, Role, User, Notification } from '../types';
 
 interface AppContextType {
@@ -33,6 +34,32 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setRole(null);
     setScreen(Screen.LAUNCH);
   };
+
+  // Listen for Supabase auth events (e.g. password recovery link clicks)
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setScreen(Screen.RESET_PASSWORD);
+      }
+
+      // keep basic sign-out handling so the app state stays in sync
+      if (event === 'SIGNED_OUT') {
+        logout();
+      }
+    });
+
+    return () => {
+      // unsubscribe if available
+      try {
+        // listener may be undefined in some runtimes
+        // @ts-ignore
+        listener?.subscription?.unsubscribe?.();
+      } catch (e) {
+        // ignore
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   
   const addNotification = (notification: Omit<Notification, 'id'>) => {
     const newNotification = { ...notification, id: Date.now() };

@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Screen, Student as StudentType, AttendanceStatus } from '../types';
-import { MOCK_STUDENTS } from '../constants';
 import Button from '../components/Button';
 import { fetchViewList } from '../backend/supabaseSessionApi';
 
@@ -49,7 +48,7 @@ const StudentRow: React.FC<{
 
 const AttendanceScreen: React.FC = () => {
   const { setScreen, addNotification, role } = useAppContext();
-  const [students, setStudents] = useState<StudentType[]>(MOCK_STUDENTS);
+  const [students, setStudents] = useState<StudentType[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLocked, setIsLocked] = useState(false);
 
